@@ -3,6 +3,7 @@ set -eo pipefail
 
 set -x
 echo $(pwd)
+export BUILD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
 echo "${BUILD_DIR}"
 cd "${BUILD_DIR}"
 echo $(pwd)
