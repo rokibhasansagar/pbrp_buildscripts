@@ -1,14 +1,6 @@
 #!/bin/bash
 set -eo pipefail
 
-set -x
-echo $(pwd)
-export BUILD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
-echo "${BUILD_DIR}"
-cd "${BUILD_DIR}"
-echo $(pwd)
-set +x
-
 docker run --privileged -i --name worker --user builder \
   -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) \
   -e GitHubMail="${GitHubMail}" -e GitHubName="${GitHubName}" -e GITHUB_TOKEN="${GITHUB_TOKEN}" \
@@ -23,19 +15,15 @@ docker run --privileged -i --name worker --user builder \
   -e PB_ENGLISH="${PB_ENGLISH}" -e EXTRA_CMD="${EXTRA_CMD}" \
   -e BOT_API="${BOT_API}" -e GCF_AUTH_KEY="${GCF_AUTH_KEY}" \
   -e SFUserName="${SFUserName}" -e SFPassword="${SFPassword}" \
-  -e BUILD_DIR="${BUILD_DIR}" \
   --workdir /home/builder/android/ \
   -v "$(pwd):/home/builder/android:rw,z" \
   -v "/home/builder/.ccache:/srv/ccache:rw,z" \
   fr3akyphantom/droid-builder:focal bash << EOF
-set -vx
-id
-whoami
-sudo whoami
-echo $(pwd)
-cd "${BUILD_DIR}" && echo $(pwd)
-curl -L https://$GITHUB_TOKEN@github.com/rokibhasansagar/pbrp_buildscripts/raw/master/common_builder.sh -o builder.sh
+set -x
+curl -sL https://github.com/rokibhasansagar/pbrp_buildscripts/raw/master/common_builder.sh -o common_builder.sh || \
+  wget -q https://raw.githubusercontent.com/rokibhasansagar/pbrp_buildscripts/master/common_builder.sh -O common_builder.sh
+set +x
 ls -lA .
-set +vx
-source builder.sh
+source common_builder.sh
 EOF
+

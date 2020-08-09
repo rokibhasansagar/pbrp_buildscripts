@@ -19,8 +19,8 @@ echo -e "\n \u261e SANITY CHECKS...\n"
 [[ -z $BUILD_LUNCH && -z $FLAVOR ]] && ( echo -e "Set at least one variable. BUILD_LUNCH or FLAVOR." && exit 1 )
 
 echo -e "\n \u2714 Making Sure We Are On The Right Path...\n"
+export BUILD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
 cd "${BUILD_DIR}"
-
 
 echo -e "\n \u2730 Setting GitAuth Infos...\n"
 git config --global user.email $GitHubMail
@@ -181,3 +181,4 @@ if [[ "${CIRCLE_PROJECT_USERNAME}" == "PitchBlackRecoveryProject" ]] && [[ ! -z 
   fi
 fi
 echo -e "\n\nAll Done Gracefully\n\n"
+
