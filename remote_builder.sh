@@ -2,10 +2,10 @@
 set -eo pipefail
 
 set -x
-pwd
+echo $(pwd)
 echo "${BUILD_DIR}"
 cd "${BUILD_DIR}"
-pwd
+echo $(pwd)
 set +x
 
 docker run --privileged -i --name worker --user builder \
@@ -31,8 +31,8 @@ set -vx
 id
 whoami
 sudo whoami
-pwd
-cd "${BUILD_DIR}" && pwd
+echo $(pwd)
+cd "${BUILD_DIR}" && echo $(pwd)
 curl -L https://$GITHUB_TOKEN@github.com/rokibhasansagar/pbrp_buildscripts/raw/master/common_builder.sh -o builder.sh
 ls -lA .
 set +vx
