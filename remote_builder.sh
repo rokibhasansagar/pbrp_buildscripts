@@ -24,7 +24,7 @@ docker run --privileged -i --name worker --user builder \
   -e SFUserName="${SFUserName}" -e SFPassword="${SFPassword}" \
   -e BUILD_DIR="${BUILD_DIR}" \
   --workdir /home/builder/android/ \
-  -v "${pwd}:/home/builder/android:rw,z" \
+  -v "$(pwd)/home/builder/android:rw,z" \
   -v "/home/builder/.ccache:/srv/ccache:rw,z" \
   fr3akyphantom/droid-builder:focal bash << EOF
 set -vx
